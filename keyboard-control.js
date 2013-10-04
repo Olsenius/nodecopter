@@ -57,7 +57,6 @@ process.stdin.on('keypress', function(ch, key) {
 		} else if (key && key.name === 'f') {
 			client.stop();
 			client.animate('flipAhead', 1000);
-			console.log('speed decreased to ' + speed);
 		} else {
 			if (key) {
 				//console.log(key);
