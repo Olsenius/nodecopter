@@ -5,58 +5,84 @@ var keypress = require('keypress');
 keypress(process.stdin);
 
 var speed = 0.1;
+var lastAction = new Date().getTime();
+
 
 process.stdin.on('keypress', function(ch, key) {
 	try {
+
+		if (key && key.ctrl && key.name == 'c') {
+			land();
+			process.stdin.pause();
+			process.exit(1);
+		}
+
 		if (key && key.name === 'up') {
 			console.log('going forward');
 			client.front(speed);
-		}
-		if (key && key.name === 'down') {
+		} else if (key && key.name === 'down') {
 			console.log('backing up');
 			client.back(speed);
-		}
-		if (key && key.name === 'left') {
+		} else if (key && key.name === 'left') {
 			console.log('turning left');
 			client.clockwise(-0.5);
-		}
-		if (key && key.name === 'right') {
+		} else if (key && key.name === 'right') {
 			console.log('turning right');
 			client.clockwise(0.5);
-		}
-		if (key && key.name === 'space') {
+		} else if (key && key.name === 'space') {
 			land();
-		}
-		if (key && key.name === 'g') {
+		} else if (key && key.name === 'g') {
 			console.log('takeoff');
 			client.takeoff();
-		}
-		if (key && key.name === 'h') {
+		} else if (key && key.name === 'h') {
 			console.log('hover');
 			client.stop();
-		}
-		if (key && key.name === 'w') {
+		} else if (key && key.name === 'w') {
 			console.log('up');
 			client.up(speed);
-		}
-		if (key && key.name === 's') {
+		} else if (key && key.name === 's') {
 			console.log('down');
 			client.down(speed);
+		} else if (key && key.name === 'i') {
+			speed += 0.1;
+			console.log('speed increased to ' + speed);
+		} else if (key && key.name === 'o') {
+			speed -= 0.1;
+			console.log('speed decreased to ' + speed);
 		} else {
-			client.stop();
+			if (key) {
+				console.log(key);
+				//client.stop();
+				//return;
+			}
 		}
+		lastAction = new Date().getTime();
 	} catch (e) {
 		console.log('Landing hard');
 		land();
 		console.log(e);
 	}
 
-	if (key && key.ctrl && key.name == 'c') {
-		land();
-		process.stdin.pause();
-		process.exit(1);
-	}
+
 });
+
+function checkForHover() {
+	//console.log("CheckForHover: lastaction = " + lastAction + 500);
+	try {
+		var test = new Date().getTime() - 500;
+		//console.log('test: ' + test);
+		if (lastAction < test) {
+			console.log("Hover");
+			client.stop();
+		}
+	} catch (e) {
+		console.log(e);
+		console.log("Landing");
+		client.land();
+	}
+}
+
+setInterval(checkForHover, 200);
 
 function land() {
 	console.log('Landing');
