@@ -42,6 +42,12 @@ process.stdin.on('keypress', function(ch, key) {
 		} else if (key && key.name === 's') {
 			console.log('down');
 			client.down(speed);
+		} else if (key && key.name === 'a') {
+			console.log('left');
+			client.left(speed / 2);
+		} else if (key && key.name === 'd') {
+			console.log('right');
+			client.right(speed / 2);
 		} else if (key && key.name === 'i') {
 			speed += 0.1;
 			console.log('speed increased to ' + speed);
