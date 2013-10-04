@@ -10,7 +10,6 @@ var lastAction = new Date().getTime();
 
 process.stdin.on('keypress', function(ch, key) {
 	try {
-
 		if (key && key.ctrl && key.name == 'c') {
 			land();
 			process.stdin.pause();
@@ -51,9 +50,7 @@ process.stdin.on('keypress', function(ch, key) {
 			console.log('speed decreased to ' + speed);
 		} else {
 			if (key) {
-				console.log(key);
-				//client.stop();
-				//return;
+				//console.log(key);
 			}
 		}
 		lastAction = new Date().getTime();
@@ -67,10 +64,8 @@ process.stdin.on('keypress', function(ch, key) {
 });
 
 function checkForHover() {
-	//console.log("CheckForHover: lastaction = " + lastAction + 500);
 	try {
 		var test = new Date().getTime() - 500;
-		//console.log('test: ' + test);
 		if (lastAction < test) {
 			console.log("Hover");
 			client.stop();
