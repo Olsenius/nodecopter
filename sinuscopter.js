@@ -21,27 +21,24 @@ process.stdin.on('keypress', function (ch, key) {
 process.stdin.setRawMode(true);
 process.stdin.resume();
 
+var currentYPos = 0;
+
 client.takeoff();
-
-var currentYSpeed = 0;
-
 client
   .after(5000, function() {
-
     setInterval( sine, 100, this);
 
   });
 
 
 function sine(drone) {
-    var position = Math.sin( currentYSpeed ) / 2 + 0.5;
+    var position = Math.sin( currentYPos ) / 2 + 0.5;
     console.log("Pos: " + position);
-
 
     if (position >= 0.5) {
       drone.up(0.8);
     } else {
       drone.down(0.8);
     }
-    currentYSpeed += 0.10;
+    currentYPos += 0.10;
 }
